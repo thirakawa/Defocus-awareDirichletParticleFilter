@@ -305,7 +305,10 @@ def _init_a(D):
     '''Initial guess for Dirichlet alpha parameters given data D'''
     E = D.mean(axis=0)
     E2 = (D**2).mean(axis=0)
-    return ((E[0] - E2[0])/(E2[0]-E[0]**2)) * E
+    if E2[0] - E[0]**2 > sys.float_info.min:
+        return ((E[0] - E2[0])/(E2[0]-E[0]**2)) * E
+    else:
+        E
 
 def _ipsi(y, tol=1.48e-9, maxiter=10):
     '''Inverse of psi (digamma) using Newton's method. For the purposes
